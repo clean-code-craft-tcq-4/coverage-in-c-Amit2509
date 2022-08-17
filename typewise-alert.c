@@ -46,6 +46,8 @@ int checkAndAlert( AlertTarget alertTarget, BatteryCharacter batteryChar, double
     case TO_EMAIL:
       AlertSent = sendToEmail(breachType);
       break;
+    default:
+      break;
   }
   
   return AlertSent;
