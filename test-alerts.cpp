@@ -15,3 +15,22 @@ TEST_CASE("classify the breach according to type of cooling and temperature") {
   REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, 42) == TOO_HIGH);
    
 }
+
+TEST_CASE("testing alert send to controller") {
+  REQUIRE(sendToController(TOO_LOW) == 1);
+  REQUIRE(sendToController(TOO_HIGH) == 1);
+  REQUIRE(sendToController(NORMAL) == 1);
+}
+
+TEST_CASE("testing alert send to email") {
+  REQUIRE(sendToEmail(TOO_LOW) == 1);
+  REQUIRE(sendToEmail(TOO_HIGH) == 1);
+  REQUIRE(sendToEmail(NORMAL) == 0);
+}
+
+TEST_CASE("testing check and alert") {
+  BatteryCharacter batteryChar;
+  batteryChar.coolingType = MED_ACTIVE_COOLING;
+  REQUIRE(checkAndAlert(TO_CONTROLLER, batteryChar, 41) == 1);
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar, 41) == 0);
+}
