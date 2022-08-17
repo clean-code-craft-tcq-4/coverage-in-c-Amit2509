@@ -8,11 +8,13 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value > upperLimit) {
     return TOO_HIGH;
   }
-  return NORMAL;
+  else
+  {
+    return NORMAL;
+  }
 }
 
-BreachType classifyTemperatureBreach(
-    CoolingType coolingType, double temperatureInC) {
+BreachType classifyTemperatureBreach( CoolingType coolingType, double temperatureInC) {
   int lowerLimit = 0;
   int upperLimit = 0;
   switch(coolingType) {
@@ -24,7 +26,7 @@ BreachType classifyTemperatureBreach(
       lowerLimit = 0;
       upperLimit = 45;
       break;
-    case MED_ACTIVE_COOLING:
+    default:
       lowerLimit = 0;
       upperLimit = 40;
       break;
@@ -32,40 +34,47 @@ BreachType classifyTemperatureBreach(
   return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
-void checkAndAlert(
-    AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
-
-  BreachType breachType = classifyTemperatureBreach(
-    batteryChar.coolingType, temperatureInC
-  );
+int checkAndAlert( AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) 
+{
+  int AlertSent = 0;
+  BreachType breachType = classifyTemperatureBreach( batteryChar.coolingType, temperatureInC);
 
   switch(alertTarget) {
     case TO_CONTROLLER:
-      sendToController(breachType);
+      AlertSent = sendToController(breachType);
       break;
     case TO_EMAIL:
-      sendToEmail(breachType);
+      AlertSent = sendToEmail(breachType);
+      break;
+    default:
       break;
   }
+  
+  return AlertSent;
 }
 
-void sendToController(BreachType breachType) {
+int sendToController(BreachType breachType) {
   const unsigned short header = 0xfeed;
   printf("%x : %x\n", header, breachType);
+  return 1;
 }
 
-void sendToEmail(BreachType breachType) {
+int sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
+  int alertSent = 0;
   switch(breachType) {
     case TOO_LOW:
       printf("To: %s\n", recepient);
       printf("Hi, the temperature is too low\n");
+      alertSent = 1;
       break;
     case TOO_HIGH:
       printf("To: %s\n", recepient);
       printf("Hi, the temperature is too high\n");
+      alertSent = 1;
       break;
-    case NORMAL:
+    default:
       break;
   }
+  return alertSent;
 }
