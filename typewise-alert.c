@@ -46,7 +46,7 @@ int checkAndAlert( AlertTarget alertTarget, BatteryCharacter batteryChar, double
       break;
   }
   
-  return result;
+  return AlertSent;
 }
 
 int sendToController(BreachType breachType) {
