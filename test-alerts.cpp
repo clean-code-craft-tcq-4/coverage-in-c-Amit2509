@@ -33,4 +33,6 @@ TEST_CASE("testing check and alert") {
   batteryChar.coolingType = MED_ACTIVE_COOLING;
   REQUIRE(checkAndAlert(TO_CONTROLLER, batteryChar, 38) == 1);
   REQUIRE(checkAndAlert(TO_EMAIL, batteryChar, 38) == 0);
-}
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar, 41) == 1);
+
+} 
