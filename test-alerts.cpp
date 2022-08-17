@@ -35,6 +35,6 @@ TEST_CASE("testing check and alert") {
   REQUIRE(checkAndAlert(TO_CONTROLLER, batteryChar, 38) == 1);
   REQUIRE(checkAndAlert(TO_EMAIL, batteryChar, 38) == 0);
   REQUIRE(checkAndAlert(TO_EMAIL, batteryChar, 41) == 1);
-  REQUIRE(checkAndAlert(OTHERS, batteryChar, 41) == 1); /*Sending to a non existing target*/
+  REQUIRE(checkAndAlert(OTHERS, batteryChar, 41) == 0); /*Sending to a non existing target*/
 
 } 
